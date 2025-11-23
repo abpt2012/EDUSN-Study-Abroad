@@ -1,0 +1,178 @@
+$(document).ready(function () {
+    $('.select2').select2();
+
+    // tinymce.init({
+    //      selector: '#Details',
+    //      plugins: [
+    //        // Core editing features
+    //        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+    //        // Your account includes a free trial of TinyMCE premium features
+    //        // Try the most popular premium features until Feb 5, 2025:
+    //        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
+    //      ],
+    //      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+    //      tinycomments_mode: 'embedded',
+    //      // tinycomments_author: 'Author name',
+    //      // mergetags_list: [
+    //      //   { value: 'First.Name', title: 'First Name' },
+    //      //   { value: 'Email', title: 'Email' },
+    //      // ],
+    //      ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+    // });
+
+    tinymce.init({
+        selector: '.tinymce-editor', // Targets all elements with this class
+        plugins: 'lists link image table code',
+        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        height: 300 // Set the height of the editor
+    });
+
+    $("#menuSearch").on("input", function () {
+        let term = $(this).val().trim();
+        let $results = $("#searchResults");
+
+        if (term.length >= 2) {
+            $.ajax({
+                url: '/Setting/SearchMenus',
+                type: 'GET',
+                data: { term: term },
+                success: function (data) {
+                    $results.empty();
+
+                    if (data && data.length > 0) {
+                        $.each(data, function (i, item) {
+                            $results.append(
+                                `<a href="${item.menuLink}" class="list-group-item list-group-item-action">
+                                        <i class="fas fa-link me-2" style="font-size: 12px;"></i>${item.menuName}
+                                     </a>`
+                            );
+                        });
+                        $results.show();
+                    } else {
+                        $results.html('<div class="no-results">No matching menus found</div>').show();
+                    }
+                },
+                error: function () {
+                    $results.html('<div class="no-results">Error loading results</div>').show();
+                }
+            });
+        } else {
+            $results.hide();
+        }
+    });
+
+    // Hide results when clicking outside
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('.top-nav-search').length) {
+            $("#searchResults").hide();
+        }
+    });
+});
+function bindGroup() {
+    $.ajax({
+        url: '/Teacher/GetAllGroup',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var ddlGroup = $('#ddlGroup');
+            ddlGroup.empty();
+            $.each(data, function (i, group) {
+                ddlGroup.append('<option value="' + group.groupId + '">' + group.groupName + '</option>');
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+}
+function ValidateMenu() {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        url: "/AdminDashboard/GetShowHideMenu",
+        success: function (data) {
+            $('#divAdminDashboard').toggle(data.isAllow_AdminDashboard);
+            $('#divCampus').toggle(data.isAllow_Campus);
+            $('#divFee').toggle(data.isAllow_FeeManage);
+            $('#divStudent').toggle(data.isAllow_Student);
+            $('#divSubject').toggle(data.isAllow_Subject);
+            $('#divTeacher').toggle(data.isAllow_Teacher);
+            $('#divUserManage').toggle(data.isAllow_User);
+        }
+    });
+}
+function BindCampusDDL() {
+    $.ajax({
+        url: '/Student/GetCampuses',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var ddlCampus = $('#ddlCampus');
+            ddlCampus.empty();
+            ddlCampus.append('<option value="">Select Campus</option>');
+            $.each(data, function (i, campus) {
+                ddlCampus.append('<option value="' + campus.campusId + '">' + campus.campusName + '</option>');
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
+async function BindCommonSubject() {
+    try {
+        let response = await $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: "/Common/GetSubject"
+        });
+
+        var dropdown = $('#ddlSubject');
+        dropdown.empty();
+        dropdown.append($('<option></option>').text("Select Subject").val(""));
+
+        if (response.length > 0) {
+            $.each(response, function (index, item) {
+                dropdown.append($('<option></option>').text(item.subjectName).val(item.subjectId));
+            });
+        } else {
+            dropdown.append($('<option></option>').text("No subjects available").val(""));
+        }
+
+    } catch (error) {
+        console.error("Error fetching subjects:", error);
+        alert("Failed to load subjects.");
+    }
+}
+
+function bindCommonStudent() {
+    $.ajax({
+        url: '/Student/GetStudents',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            //console.log('Received data:', data); // Log the entire response for inspection
+
+            var ddlStudentFilter = $('#ddlStudent');
+            ddlStudentFilter.empty();
+            ddlStudentFilter.append('<option value="">Select Student</option>');
+
+            $.each(data, function (i, student) {
+                // Convert student properties to lowercase to handle case sensitivity
+                var studentId = student.studentId || student.StudentId;
+                var firstName = student.firstName || student.FirstName;
+
+                if (studentId && firstName) {
+                    ddlStudentFilter.append('<option value="' + studentId + '">' + student.studentCode + '-' + firstName + '</option>');
+                } else {
+                    // Log unexpected data structure
+                    //console.log('Unexpected data structure at index ' + i + ':', student);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('AJAX error:', error);
+        }
+    });
+}

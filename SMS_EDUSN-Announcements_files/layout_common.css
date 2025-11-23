@@ -1,0 +1,200 @@
+/* Specific styling for the compact table */
+.table-compact {
+    border-collapse: collapse !important; /* Ensure no extra spacing */
+}
+
+    .table-compact td,
+    .table-compact th {
+        padding: 4px 8px !important; /* Reduce padding */
+        vertical-align: middle !important; /* Align text vertically */
+    }
+
+    .table-compact tr {
+        height: 25px !important; /* Reduce row height */
+    }
+
+    .table-compact .badge {
+        padding: 2px 6px !important; /* Adjust badge padding */
+    }
+
+    .table-compact th {
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+
+table th, table td {
+    word-wrap: break-word !important;
+}
+
+.table-compact th {
+    padding: 10px 15px !important; /* Increase padding for header */
+    background-color: #f8f9fa; /* Optional: Light background color for header */
+}
+
+/* Align text to the center */
+.center {
+    text-align: left !important;
+}
+
+.right {
+    text-align: right !important;
+}
+/* Optional: Add vertical alignment for better visuals */
+.table td, .table th {
+    vertical-align: middle;
+}
+/* Align text to the left */
+.left {
+    text-align: left !important;
+}
+
+/* Adjust alignment for table-specific td/th */
+.table td.left, .table th.left {
+    text-align: left !important;
+}
+
+.pagination-section .pagination {
+    margin: 0;
+}
+
+.pagination .page-item .page-link {
+    border-radius: 20px;
+    color: #007bff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.table th,
+.table td {
+    padding: 10px !important;
+}
+
+.text-danger {
+    color: #e63946 !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-secondary {
+    color: #6c757d !important;
+}
+
+.btn-secondary {
+    background-color: #17a2b8 !important;
+    color: white;
+}
+
+
+    .btn-secondary:hover {
+        background-color: #138496;
+    }
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+.badge.bg-primary {
+    background-color: #007bff !important;
+}
+
+.badge.bg-danger {
+    background-color: #e63946 !important;
+}
+
+.badge.bg-success {
+    background-color: #28a745 !important;
+}
+/* Styling for Select2 container */
+.select2-container--default .select2-selection--multiple {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 4px;
+    min-height: 38px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+    /* Styling for selected choices */
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        margin: 2px 5px 2px 0;
+        font-size: 14px;
+    }
+
+    /* Remove border and outline from close button */
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        color: #fff;
+        margin-left: 5px;
+        cursor: pointer;
+        border: none; /* Remove border */
+        outline: none; /* Remove outline */
+    }
+
+        /* Hover effect for the close button */
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+            color: #ff5b5b;
+        }
+
+    /* Styling for the search field inside select2 */
+    .select2-container--default .select2-selection--multiple .select2-search__field {
+        margin-left: 5px;
+        font-size: 14px;
+    }
+/* Customize loading spinner color and size as needed */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+/* Define a reusable class for table styling */
+.excel-like-table {
+    border-collapse: collapse; /* Ensures borders are merged */
+    width: 100%;
+}
+
+    .excel-like-table th,
+    .excel-like-table td {
+        border: 1px solid #000; /* Adds a solid black border to each cell */
+        padding: 8px; /* Adds padding for better spacing */
+        text-align: center; /* Centers text in cells */
+    }
+
+    .excel-like-table th {
+        background-color: #f2f2f2; /* Adds a light gray background to headers */
+        font-weight: bold; /* Makes header text bold */
+    }
+
+    .excel-like-table .table-header th {
+        background-color: #94e9c2; /* Slightly darker background for grouped headers */
+        border-bottom: 1px solid #000; /* Ensures bottom border is visible */
+    }
+
+        .excel-like-table .table-header th[colspan] {
+            border-bottom: 1px solid #000; /* Ensures bottom border for grouped headers */
+        }
